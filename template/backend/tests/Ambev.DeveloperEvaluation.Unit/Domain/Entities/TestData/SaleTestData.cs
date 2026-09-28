@@ -19,4 +19,14 @@ public static class SaleTestData
     {
         return SaleFaker.Generate();
     }
+
+    public static int GenerateInvalidNumber()
+    {
+        return new Faker().Random.Number(-999, 0);
+    }
+
+    public static decimal GenerateInvalidDiscount()
+    {
+        return new Faker().Random.Decimal(-999, -1);
+    }
 }

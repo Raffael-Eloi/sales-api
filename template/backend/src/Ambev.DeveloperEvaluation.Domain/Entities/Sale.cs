@@ -1,5 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation.Results;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -26,5 +29,16 @@ public class Sale : BaseEntity
         {
             return Products.Sum(x => x.Total) - Discount;
         }
+    }
+
+    public ValidationResultDetail Validate()
+    {
+        SaleValidator validator = new();
+        ValidationResult result = validator.Validate(this);
+        return new ValidationResultDetail
+        {
+            IsValid = result.IsValid,
+            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        };
     }
 }

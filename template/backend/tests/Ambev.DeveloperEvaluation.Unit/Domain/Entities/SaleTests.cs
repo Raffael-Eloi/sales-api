@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 using Xunit;
 
@@ -38,5 +39,49 @@ public class SaleTests
         // Assert
         decimal expectedTotal = (sale.Products.First().Total + sale.Products.Last().Total) - discount;
         Assert.Equal(expectedTotal, total);
+    }
+
+    [Fact(DisplayName = "Validation should fail for invalid sale number")]
+    public void Given_InvalidSaleNumber_When_Validate_Then_ShouldReturnInvalid()
+    {
+        // Arrange
+        Sale sale = SaleTestData.GenerateValidProduct();
+        sale.Number = SaleTestData.GenerateInvalidNumber();
+
+        // Act
+        ValidationResultDetail result = sale.Validate();
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Fact(DisplayName = "Validation should fail for invalid sale discount")]
+    public void Given_InvalidSaleDiscount_When_Validate_Then_ShouldReturnInvalid()
+    {
+        // Arrange
+        Sale sale = SaleTestData.GenerateValidProduct();
+        sale.Discount = SaleTestData.GenerateInvalidDiscount();
+
+        // Act
+        ValidationResultDetail result = sale.Validate();
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Fact(DisplayName = "Validation should fail when discount is greater than the total products price")]
+    public void Given_DiscountGreaterThanTotalProductsPrice_When_Validate_Then_ShouldReturnInvalid()
+    {
+        // Arrange
+        Sale sale = SaleTestData.GenerateValidProduct();
+        sale.Products.Add(ProductTestData.GenerateValidProduct());
+        sale.Products.Add(ProductTestData.GenerateValidProduct());
+        sale.Discount = sale.Products.Sum(x => x.Total) + 1;
+
+        // Act
+        ValidationResultDetail result = sale.Validate();
+
+        // Assert
+        Assert.False(result.IsValid);
     }
 }
