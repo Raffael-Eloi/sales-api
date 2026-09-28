@@ -40,4 +40,18 @@ public class ProductTests
         // Assert
         Assert.False(result.IsValid);
     }
+
+    [Fact(DisplayName = "Validation should fail for invalid product price")]
+    public void Given_InvalidProductPrice_When_Validate_Then_ShouldReturnInvalid()
+    {
+        // Arrange
+        Product product = ProductTestData.GenerateValidProduct();
+        product.Price = ProductTestData.GenerateInvalidPrice();
+
+        // Act
+        ValidationResultDetail result = product.Validate();
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
 }

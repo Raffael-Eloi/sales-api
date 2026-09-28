@@ -10,5 +10,9 @@ public class ProductValidator : AbstractValidator<Product>
         RuleFor(product => product.Quantity)
             .Must(x => x >= 0)
             .WithMessage("Quantity must be greater than 1.");
+
+        RuleFor(product => product.Price)
+            .Must(x => x >= 0)
+            .WithMessage("Price must be greater than 0.");
     }
 }

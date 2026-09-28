@@ -19,4 +19,9 @@ public static class ProductTestData
     {
         return new Faker().Random.Number(-999, -1);
     }
+
+    public static decimal GenerateInvalidPrice()
+    {
+        return new Faker().Random.Decimal(-999, -1);
+    }
 }
