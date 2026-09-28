@@ -14,4 +14,9 @@ public static class ProductTestData
     {
         return ProductFaker.Generate();
     }
+
+    public static int GenerateInvalidQuantity()
+    {
+        return new Faker().Random.Number(-999, -1);
+    }
 }
