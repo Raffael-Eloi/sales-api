@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -13,16 +14,19 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<CreateSaleHandler> _logger;
 
     /// <summary>
     /// Initializes a new instance of CreateSaleHandler
     /// </summary>
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    /// <param name="logger">The logger instance</param>
+    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ILogger<CreateSaleHandler> logger)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     /// <summary>
@@ -41,6 +45,9 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 
         var sale = _mapper.Map<Sale>(command);
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+
+        _logger.LogInformation("SaleCreated: Sale {SaleId} (Number {SaleNumber}) was created", createdSale.Id, createdSale.Number);
+
         var result = _mapper.Map<CreateSaleResult>(createdSale);
         return result;
     }

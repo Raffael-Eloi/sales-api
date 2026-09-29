@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
@@ -12,16 +13,19 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<UpdateSaleHandler> _logger;
 
     /// <summary>
     /// Initializes a new instance of UpdateSaleHandler
     /// </summary>
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    /// <param name="logger">The logger instance</param>
+    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ILogger<UpdateSaleHandler> logger)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     /// <summary>
@@ -45,6 +49,9 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
         _mapper.Map(command, sale);
 
         var updatedSale = await _saleRepository.UpdateAsync(sale, cancellationToken);
+
+        _logger.LogInformation("SaleModified: Sale {SaleId} (Number {SaleNumber}) was modified", updatedSale.Id, updatedSale.Number);
+
         return _mapper.Map<UpdateSaleResult>(updatedSale);
     }
 }
