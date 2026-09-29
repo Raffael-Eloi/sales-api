@@ -80,4 +80,13 @@ public class Sale : BaseEntity
             Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
         };
     }
+
+    /// <summary>
+    /// Cancels the sale.
+    /// Changes the sale's status to Cancelled.
+    /// </summary>
+    public void Cancel()
+    {
+        Status = SaleStatus.Cancelled;
+    }
 }
