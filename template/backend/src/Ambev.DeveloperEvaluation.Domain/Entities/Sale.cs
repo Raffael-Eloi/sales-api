@@ -7,6 +7,7 @@ using FluentValidation.Results;
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
 // TODO: Document entity and properties
+// TODO: Refactor folder design
 public class Sale : BaseEntity
 {
     public int Number { get; set; }
