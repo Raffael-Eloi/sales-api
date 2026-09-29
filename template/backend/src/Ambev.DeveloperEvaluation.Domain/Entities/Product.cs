@@ -11,11 +11,25 @@ public class Product : BaseEntity
 
     public decimal Price { get; set; }
 
+    public decimal DiscountPercentage
+    {
+        get
+        {
+            if (Quantity >= 10 && Quantity <= 20)
+                return 0.20M;
+
+            if (Quantity >= 4)
+                return 0.10M;
+
+            return 0M;
+        }
+    }
+
     public decimal Total
     {
         get
         {
-            return Quantity * Price;
+            return Quantity * Price * (1 - DiscountPercentage);
         }
     }
 

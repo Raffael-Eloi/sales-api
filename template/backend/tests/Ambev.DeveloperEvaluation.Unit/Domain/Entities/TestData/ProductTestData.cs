@@ -6,9 +6,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 public static class ProductTestData
 {
     private static readonly Faker<Product> ProductFaker = new Faker<Product>()
-        .RuleFor(u => u.Quantity, f => f.Random.Number(1, 100))
-        .RuleFor(u => u.Price, f => f.Random.Decimal(1, 999))
-        .RuleFor(u => u.Total, f => f.Random.Decimal(1, 999));
+        .RuleFor(u => u.Quantity, f => f.Random.Number(1, 20))
+        .RuleFor(u => u.Price, f => f.Random.Decimal(1, 999));
 
     public static Product GenerateValidProduct()
     {
@@ -23,5 +22,10 @@ public static class ProductTestData
     public static decimal GenerateInvalidPrice()
     {
         return new Faker().Random.Decimal(-999, -1);
+    }
+
+    public static int GenerateQuantityAboveMaximum()
+    {
+        return new Faker().Random.Number(21, 999);
     }
 }
