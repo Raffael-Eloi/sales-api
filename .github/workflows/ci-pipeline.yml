@@ -29,12 +29,12 @@ jobs:
       - name: Restore dependencies
         run: |
           cd template/backend
-          dotnet restore
+          dotnet restore Ambev.DeveloperEvaluation.sln
 
       - name: Build
         run: |
           cd template/backend
-          dotnet build --no-restore
+          dotnet build Ambev.DeveloperEvaluation.sln --no-restore
 
   tests:
     name: Unit Tests
@@ -60,9 +60,9 @@ jobs:
       - name: Restore dependencies
         run: |
           cd template/backend
-          dotnet restore
+          dotnet restore Ambev.DeveloperEvaluation.sln
 
       - name: Run Tests
         run: |
           cd template/backend
-          dotnet test --no-restore
+          dotnet test Ambev.DeveloperEvaluation.sln --no-restore
