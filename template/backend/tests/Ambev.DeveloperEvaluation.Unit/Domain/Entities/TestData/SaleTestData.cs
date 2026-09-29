@@ -11,7 +11,7 @@ public static class SaleTestData
         .RuleFor(u => u.CreatedAt, f => DateTime.Now)
         .RuleFor(u => u.CustomerId, f => f.Random.Guid())
         .RuleFor(u => u.BranchId, f => f.Random.Guid())
-        .RuleFor(u => u.Discount, f => f.Random.Number(1, 999))
+        .RuleFor(u => u.Discount, f => 0)
         .RuleFor(u => u.Status, f => SaleStatus.Active)
         .RuleFor(u => u.Products, f => []);
 
