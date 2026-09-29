@@ -27,10 +27,14 @@ jobs:
             nuget-${{ runner.os }}-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          cd template\backend
+          dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        run: |
+          cd template\backend
+          dotnet build --no-restore
 
   tests:
     name: Unit Tests
@@ -54,7 +58,11 @@ jobs:
             nuget-${{ runner.os }}-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          cd template\backend
+          dotnet restore
 
       - name: Run Tests
-        run: dotnet test --no-restore
+        run: |
+          cd template\backend
+          dotnet test --no-restore
