@@ -28,12 +28,12 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          cd template\backend
+          cd template/backend
           dotnet restore
 
       - name: Build
         run: |
-          cd template\backend
+          cd template/backend
           dotnet build --no-restore
 
   tests:
@@ -59,10 +59,10 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          cd template\backend
+          cd template/backend
           dotnet restore
 
       - name: Run Tests
         run: |
-          cd template\backend
+          cd template/backend
           dotnet test --no-restore
